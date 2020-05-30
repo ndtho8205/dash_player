@@ -11,7 +11,7 @@ import ReactiveChart from '@/components/common/ReactiveChart.vue';
 import styles from '@/core/visualizations/styles';
 
 export default {
-  name: 'BufferLevelChart',
+  name: 'DownloadTimeChart',
   components: {
     ReactiveChart,
   },
@@ -21,8 +21,8 @@ export default {
       timeCodeTrace(state) {
         return this.extractLatest(state.timeCodeTrace, 20);
       },
-      bufferLevelTrace(state) {
-        return this.extractLatest(state.bufferLevelTrace, 20);
+      downloadTimeTrace(state) {
+        return this.extractLatest(state.downloadTimeTrace, 20);
       },
     }),
   },
@@ -35,11 +35,11 @@ export default {
     chartData() {
       const trace = {
         x: this.timeCodeTrace,
-        y: this.bufferLevelTrace,
+        y: this.downloadTimeTrace,
         mode: 'lines+markers',
-        name: 'Buffer Level',
+        name: 'Download Time',
         line: {
-          color: styles.buffer.color,
+          color: styles.downloadTime.color,
           width: 3,
         },
       };
@@ -47,12 +47,14 @@ export default {
     },
 
     chartLayout() {
-      const annotation = this.bufferLevelTrace.length > 0
+      const annotation = this.downloadTimeTrace.length > 0
         ? [
           {
             x: this.timeCodeTrace[this.timeCodeTrace.length - 1],
-            y: this.bufferLevelTrace[this.bufferLevelTrace.length - 1],
-            text: `${this.bufferLevelTrace[this.bufferLevelTrace.length - 1]}s`,
+            y: this.downloadTimeTrace[this.downloadTimeTrace.length - 1],
+            text: `${this.downloadTimeTrace[
+              this.downloadTimeTrace.length - 1
+            ].toFixed(3)} sec`,
             yanchor: 'bottom',
             showarrow: false,
           },
@@ -75,8 +77,8 @@ export default {
           showline: true,
         },
         yaxis: {
-          title: 'Buffer Level (sec)',
-          range: [0, 17],
+          title: 'Download Time (sec)',
+          range: [0, 20],
           dtick: 2,
           showgrid: true,
           zeroline: false,

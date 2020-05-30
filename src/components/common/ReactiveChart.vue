@@ -19,7 +19,7 @@ export default {
 
   data() {
     return {
-      config: {
+      chartConfig: {
         reponsive: true,
         scrollZoom: false,
         editable: false,
@@ -49,7 +49,7 @@ export default {
 
   methods: {
     plot() {
-      Plotly.react(this.$refs.chart, this.data, this.layout, this.config);
+      Plotly.react(this.$refs.chart, this.data, this.layout, this.chartConfig);
     },
   },
 };

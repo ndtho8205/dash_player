@@ -10,6 +10,7 @@ export default new Vuex.Store({
     bitrateTrace: [],
     bufferLevelTrace: [],
     throughputTrace: [],
+    downloadTimeTrace: [],
   },
 
   getters: {},
@@ -33,6 +34,10 @@ export default new Vuex.Store({
 
     PUSH_THROUGHPUT(state, value) {
       state.throughputTrace.push(value);
+    },
+
+    PUSH_DOWNLOAD_TIME(state, value) {
+      state.downloadTimeTrace.push(value);
     },
   },
 

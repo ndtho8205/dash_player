@@ -4,9 +4,9 @@
     <div class="flex flex-row flex-wrap justify-around items-start content-start">
       <DashPlayer></DashPlayer>
       <div class="flex flex-column">
-        <BitrateChart></BitrateChart>
-        <BufferLevelChart></BufferLevelChart>
+        <BitrateBufferLevelChart></BitrateBufferLevelChart>
         <ThroughputChart></ThroughputChart>
+        <DownloadTimeChart></DownloadTimeChart>
       </div>
     </div>
   </div>
@@ -14,17 +14,17 @@
 
 <script>
 import DashPlayer from '@/components/DashPlayer.vue';
-import BitrateChart from '@/components/visualizations/BitrateChart.vue';
-import BufferLevelChart from '@/components/visualizations/BufferLevelChart.vue';
+import BitrateBufferLevelChart from '@/components/visualizations/BitrateBufferLevelChart.vue';
 import ThroughputChart from '@/components/visualizations/ThroughputChart.vue';
+import DownloadTimeChart from '@/components/visualizations/DownloadTimeChart.vue';
 
 export default {
   name: 'Dash',
   components: {
     DashPlayer,
-    BitrateChart,
-    BufferLevelChart,
+    BitrateBufferLevelChart,
     ThroughputChart,
+    DownloadTimeChart,
   },
 };
 </script>

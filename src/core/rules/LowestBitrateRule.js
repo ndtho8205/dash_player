@@ -2,8 +2,8 @@ import FactoryMaker from 'dashjs/src/core/FactoryMaker';
 import SwitchRequest from 'dashjs/src/streaming/rules/SwitchRequest';
 import RulesContextMetrics from '@/core/metrics/RulesContextMetrics';
 
-import config from '@/core/configs';
-import fetch from '@/core/utils/fetch';
+// import config from '@/core/configs';
+// import fetch from '@/core/utils/fetch';
 
 const ruleName = 'LowestBitrateRule';
 
@@ -17,19 +17,19 @@ function LowestBitrateRuleClass() {
     const switchRequest = SwitchRequest(context).create();
 
     // request bitrate from server
-    const postData = {};
+    // const postData = {};
 
-    const [response, err] = fetch.post(
-      `${config.protocol}://${config.hostname}:${config.port.lowest}`,
-      postData,
-    );
-    if (err) {
-      console.error(`[${ruleName}] error`, err);
-    }
-    console.log(`[${ruleName}] received response`, response);
+    // const [response, err] = fetch.post(
+    //   `${config.protocol}://${config.hostname}:${config.port.lowest}`,
+    //   postData,
+    // );
+    // if (err) {
+    //   console.error(`[${ruleName}] error`, err);
+    // }
+    // console.log(`[${ruleName}] received response`, response);
 
     // Ask to switch to the lowest bitrate
-    switchRequest.quality = 9; // response.bitrate;
+    switchRequest.quality = 8; // response.bitrate;
     switchRequest.reason = 'Always switching to the lowest bitrate';
     switchRequest.priority = SwitchRequest.PRIORITY.STRONG;
 

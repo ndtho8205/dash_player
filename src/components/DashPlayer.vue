@@ -1,6 +1,9 @@
 <template>
   <div class="dash-player">
     <video ref="videoPlayer" width="640" height="360" controls></video>
+    <div>
+      <p><b>Number of remaining chunks:</b> {{ this.remainingChunks }}/<b>160</b></p>
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ export default {
       src: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd',
       sessionStartTime: 0,
       eventPoller: null,
+      remainingChunks: 0,
     };
   },
 
@@ -38,7 +42,7 @@ export default {
       this.player.updateSettings({
         streaming: {
           abr: {
-            useDefaultABRRules: true,
+            useDefaultABRRules: false,
           },
         },
       });
@@ -119,6 +123,14 @@ export default {
           this.$store.commit('PUSH_BITRATE', playerMetrics.getBitrate());
           this.$store.commit('PUSH_BUFFER_LEVEL', playerMetrics.getBufferLevel());
           this.$store.commit('PUSH_THROUGHPUT', playerMetrics.getThroughput());
+          this.$store.commit(
+            'PUSH_DOWNLOAD_TIME',
+            playerMetrics.getAverageDownloadTime(),
+          );
+          this.remainingChunks = (
+            (this.player.duration() - this.player.time())
+            / 4
+          ).toFixed(2);
         }
       }, 1000);
     },
