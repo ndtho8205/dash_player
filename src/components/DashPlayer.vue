@@ -41,6 +41,13 @@ export default {
       this.player = MediaPlayer().create();
       this.player.updateSettings({
         streaming: {
+          scheduleWhilePaused: false,
+          lastBitrateCachingInfo: {
+            enabled: false,
+          },
+          lastMediaSettingsCachingInfo: {
+            enabled: false,
+          },
           abr: {
             useDefaultABRRules: false,
           },
@@ -85,12 +92,16 @@ export default {
 
     handleOnStreamInitialized() {
       const bitrateInfoList = this.player.getBitrateInfoListFor('video');
-      console.log({ bitrateInfoList });
       this.$store.commit('SET_BITRATE_INFO_LIST', bitrateInfoList);
+      console.log('[DashPlayer] BitrateInfoList', {
+        video: bitrateInfoList,
+        audio: this.player.getBitrateInfoListFor('audio'),
+      });
+      console.log('[DashPlayer] Settings', this.player.getSettings());
     },
 
     handleOnPlaybackStarted() {
-      console.log(`[${this.name}] onPlaybackStarted`);
+      console.log('[DashPlayer] onPlaybackStarted');
       if (!this.sessionStartTime) {
         this.sessionStartTime = new Date().getTime() / 1000;
       }
@@ -99,13 +110,13 @@ export default {
     },
 
     handleOnPlaybackPaused() {
-      console.log(`[${this.name}] onPlaybackPaused`);
-      this.destroyInterval();
+      console.log('[DashPlayer] onPlaybackPaused');
+      this.stopMetricsInterval();
     },
 
     handleOnPlaybackEnded() {
-      console.log(`[${this.name}] onPlaybackEnded`);
-      this.destroyInterval();
+      console.log('[DashPlayer] onPlaybackEnded');
+      this.stopMetricsInterval();
     },
 
     pollData() {
@@ -135,7 +146,7 @@ export default {
       }, 1000);
     },
 
-    destroyInterval() {
+    stopMetricsInterval() {
       clearInterval(this.eventPoller);
       this.eventPoller = null;
     },

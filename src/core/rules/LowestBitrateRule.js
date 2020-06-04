@@ -1,19 +1,23 @@
-import FactoryMaker from 'dashjs/src/core/FactoryMaker';
-import SwitchRequest from 'dashjs/src/streaming/rules/SwitchRequest';
-import RulesContextMetrics from '@/core/metrics/RulesContextMetrics';
+import dashjs from 'dashjs';
+
+import DashMetricsWrapper from '@/core/metrics/DashMetricsWrapper';
 
 // import config from '@/core/configs';
 // import fetch from '@/core/utils/fetch';
 
-const ruleName = 'LowestBitrateRule';
-
-function LowestBitrateRuleClass() {
+function LowestBitrateRule() {
   const { context } = this;
+
+  const factory = dashjs.FactoryMaker;
+  const SwitchRequest = factory.getClassFactoryByName('SwitchRequest');
+
+  const ctxMetricsWrapper = new DashMetricsWrapper(context);
 
   function setup() {}
 
   function getMaxIndex(rulesContext) {
-    const ctxMetrics = new RulesContextMetrics(rulesContext);
+    ctxMetricsWrapper.setRulesContext(rulesContext);
+
     const switchRequest = SwitchRequest(context).create();
 
     // request bitrate from server
@@ -34,10 +38,10 @@ function LowestBitrateRuleClass() {
     switchRequest.priority = SwitchRequest.PRIORITY.STRONG;
 
     console.log(
-      `[${ruleName}] [${ctxMetrics.getMediaType()}] requesting switch to index: `,
+      `[LowestBitrateRule] [${ctxMetricsWrapper.getMediaType()}] requesting switch to index: `,
       switchRequest.quality,
       '. Average throughput',
-      Math.round(ctxMetrics.getThroughput()),
+      Math.round(ctxMetricsWrapper.getListOfLastChunkThroughput()),
       'kbps',
     );
 
@@ -57,8 +61,5 @@ function LowestBitrateRuleClass() {
 }
 
 // eslint-disable-next-line
-LowestBitrateRuleClass.__dashjs_factory_name = 'LowestBitrateRule';
-
-const LowestBitrateRule = FactoryMaker.getClassFactory(LowestBitrateRuleClass);
-
-export default LowestBitrateRule;
+LowestBitrateRule.__dashjs_factory_name = 'LowestBitrateRule';
+export default dashjs.FactoryMaker.getClassFactory(LowestBitrateRule);

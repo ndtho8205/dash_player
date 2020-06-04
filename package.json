@@ -10,14 +10,10 @@
     "lint": "npx lint-staged"
   },
   "dependencies": {
-    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
-    "dashjs": "^3.1.0",
+    "dashjs": "^3.1.1",
     "plotly.js-basic-dist-min": "^1.54.1",
-    "video.js": "^7.7.6",
-    "videojs-contrib-dash": "^2.11.0",
     "vue": "^2.6.11",
-    "vue-chartjs": "^3.5.0",
     "vue-router": "^3.1.6",
     "vuex": "^3.1.3"
   },
