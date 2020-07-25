@@ -13,12 +13,13 @@ class DashMetricsWrapper {
 
     this.rulesContext = null;
     this.abrController = null;
-    this.throughputHistory = this.abrController.getThroughputHistory();
+    this.throughputHistory = null;
   }
 
   setRulesContext(rulesContext) {
     this.rulesContext = rulesContext;
     this.abrController = rulesContext.getAbrController();
+    this.throughputHistory = this.abrController.getThroughputHistory();
   }
 
   getMediaType() {
